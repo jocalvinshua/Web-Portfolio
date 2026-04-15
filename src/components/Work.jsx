@@ -14,13 +14,13 @@ export default function Work() {
         },
         {
             name: 'Multi-Role Ecommerce Website',
-            icon: './assets/work-3.png',
+            icon: './assets/multirole-ecomm.png',
             description: 'FullStack Website',
             link: 'https://github.com/jocalvinshua/Web-MultiRole-Ecommerce',
         },
         {
             name: "Retail Sales Dashboard",
-            icon: './assets/work-4.png',
+            icon: './assets/retail-dashboard.png',
             description: 'FullStack Website',
             link: 'https://github.com/jocalvinshua/Web-Retail-Dashboard.git',
         }
@@ -32,18 +32,25 @@ export default function Work() {
             <p className="text-center max-w-2xl mx-auto mt-5 mb-12 font-Ovo">Welcome to my web development portfolio! Explore a collection of projects showcasing my expertise in front-end development.</p>
 
             <div className="grid grid-cols-auto my-10 gap-5 dark:text-black">
-                {work.map((work) => (
-                    <div key={work.name} className="aspect-square bg-no-repeat bg-cover bg-center rounded-lg relative cursor-pointer group" style={{ backgroundImage: `url(${work.icon})` }}>
+                {work.map((project, index) => (
+                    <a 
+                        href={project.link} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        key={index} 
+                        className="aspect-square bg-no-repeat bg-cover bg-center rounded-lg relative cursor-pointer group block" 
+                        style={{ backgroundImage: `url(${project.icon})` }}
+                    >
                         <div className="bg-white w-10/12 rounded-md absolute bottom-5 left-1/2 -translate-x-1/2 py-3 px-5 flex items-center justify-between duration-500 group-hover:bottom-7">
                             <div>
-                                <h2 className="font-semibold">{work.name}</h2>
-                                <p className="text-sm text-gray-700">{work.description}</p>
+                                <h2 className="font-semibold">{project.name}</h2>
+                                <p className="text-sm text-gray-700">{project.description}</p>
                             </div>
                             <div className="border rounded-full border-black w-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#000] group-hover:bg-lime-300 transition">
-                                <img src="./assets/send-icon.png" alt="" className="w-5" />
+                                <img src="./assets/send-icon.png" alt="send icon" className="w-5" />
                             </div>
                         </div>
-                    </div>
+                    </a>
                 ))}
             </div>
             <a href="https://github.com/jocalvinshua" className="w-max flex items-center justify-center gap-2 text-gray-700 border border-gray-300 dark:border-white/25 hover:bg-slate-100/70 dark:hover:bg-darkHover rounded-full py-2 px-8 mx-auto my-20 duration-300 dark:text-white">
