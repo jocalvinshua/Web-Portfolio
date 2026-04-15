@@ -1,22 +1,22 @@
-import { useEffect, useRef, useState } from 'react'
+import React, { useState, useEffect } from 'react';
 
-export default function Navbar() {
+const Navbar = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDark, setIsDark] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const sideMenuRef = useRef();
 
+  // 1. Logic Theme & Scroll (Dikutip dari Navbar1)
   useEffect(() => {
-    // Initialize theme
-    const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
-    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+    // Inisialisasi Tema
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
       document.documentElement.classList.add('dark');
       setIsDark(true);
+    } else {
+      document.documentElement.classList.remove('dark');
+      setIsDark(false);
     }
 
-    // Scroll handler
+    // Handle Scroll
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
@@ -25,130 +25,122 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const openMenu = () => {
-    setIsMobileMenuOpen(true);
-  };
-
-  const closeMenu = () => {
-    setIsMobileMenuOpen(false);
-  };
-
   const toggleTheme = () => {
-    const newIsDark = !isDark;
-    setIsDark(newIsDark);
-    
-    if (newIsDark) {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
+    if (document.documentElement.classList.contains('dark')) {
       document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
+      localStorage.theme = 'light';
+      setIsDark(false);
+    } else {
+      document.documentElement.classList.add('dark');
+      localStorage.theme = 'dark';
+      setIsDark(true);
     }
   };
 
   const navLinks = [
-    { href: '#top', label: 'Home' },
-    { href: '#about', label: 'About me' },
-    { href: '#services', label: 'Services' },
-    { href: '#work', label: 'My Work' },
-    { href: '#contact', label: 'Contact me' }
+    { name: 'Home', href: '#top' },
+    { name: 'About me', href: '#about' },
+    { name: 'Services', href: '#services' },
+    { name: 'My Work', href: '#work' },
+    { name: 'Contact me', href: '#contact' }
   ];
 
   return (
     <>
-      <nav 
-        className={`w-full fixed px-5 lg:px-8 xl:px-[8%] py-4 flex items-center justify-center z-50 transition-all duration-300 ${
-          isScrolled 
-            ? 'bg-white/50 backdrop-blur-lg shadow-sm dark:bg-gray-900/90 dark:shadow-white/20' 
-            : ''
-        }`}
-      >
-        <ul className={`hidden md:flex items-center gap-6 lg:gap-8 rounded-full px-12 py-3 transition-all duration-300 ${
-          !isScrolled 
-            ? 'bg-white/50 shadow-sm dark:border dark:border-white/30 dark:bg-transparent' 
-            : ''
-        }`}>
-          {navLinks.map((link, index) => (
-            <li key={index}>
-              <a 
-                href={link.href} 
-                className="font-Ovo hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-              >
-                {link.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-
-        <div className="absolute right-5 lg:right-8 xl:right-[8%] flex items-center gap-4">
-          <button onClick={toggleTheme} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors">
-            {isDark ? (
-              <img src="/assets/sun_icon.png" alt="Light mode" className="w-6" />
-            ) : (
-              <img src="/assets/moon_icon.png" alt="Dark mode" className="w-6" />
-            )}
-          </button>
-
-          <a 
-            href="#contact" 
-            className="hidden lg:flex items-center gap-3 px-10 py-2.5 border border-gray-500 rounded-full ml-4 font-Ovo dark:border-white/50 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-          >
-            Contact
-            <img src="/assets/arrow-icon.png" alt="Arrow" className="w-3 dark:hidden" />
-            <img src="/assets/arrow-icon-dark.png" alt="Arrow" className="w-3 hidden dark:block" />
-          </a>
-
-          <button 
-            onClick={openMenu}
-            className="block md:hidden ml-3 p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors"
-            aria-label="Open menu"
-          >
-            <img src="/assets/menu-black.png" alt="Menu" className="w-6 dark:hidden" />
-            <img src="/assets/menu-white.png" alt="Menu" className="w-6 hidden dark:block" />
-          </button>
-        </div>
-      </nav>
-
-      {/* Mobile Menu */}
-      <div 
-        ref={sideMenuRef}
-        className={`fixed top-0 bottom-0 right-0 z-50 w-64 bg-rose-50 dark:bg-gray-900 transition-transform duration-500 md:hidden ${
-          isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}
-      >
-        <div className="flex justify-end p-6">
-          <button 
-            onClick={closeMenu}
-            className="p-2 hover:bg-gray-200 dark:hover:bg-gray-800 rounded transition-colors"
-            aria-label="Close menu"
-          >
-            <img src="/images/close-black.png" alt="Close" className="w-5 dark:hidden" />
-            <img src="/images/close-white.png" alt="Close" className="w-5 hidden dark:block" />
-          </button>
-        </div>
-
-        <ul className="flex flex-col gap-4 px-8 py-4">
-          {navLinks.map((link, index) => (
-            <li key={index}>
-              <a 
-                href={link.href} 
-                onClick={closeMenu}
-                className="block font-Ovo text-lg hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-2"
-              >
-                {link.label}
-              </a>
-            </li>
-          ))}
-        </ul>
+      {/* Background Decor (Navbar1) */}
+      <div className="fixed top-0 right-0 w-11/12 -z-10 translate-y-[-80%] dark:hidden">
+        <img src="./assets/header-bg-color.png" alt="" className="w-full" />
       </div>
 
-      {/* Overlay */}
-      {isMobileMenuOpen && (
-        <div 
-          className="fixed inset-0 bg-black/50 z-40 md:hidden"
-          onClick={closeMenu}
-        />
-      )}
+      <div className={`fixed w-full z-50 transition-all duration-300 py-4 px-4`}>
+        {/* Design Navbar2: Center, Fit Content, Pill Shape 
+          Logic Navbar1: Scroll Effect (Background changes)
+        */}
+        <nav className={`
+          mx-auto flex items-center justify-between px-6 py-3 rounded-full transition-all duration-500
+          ${isScrolled 
+            ? 'bg-white/50 backdrop-blur-lg shadow-sm dark:bg-darkTheme/70 dark:shadow-white/20 border-white/20' 
+            : 'bg-white shadow-sm bg-opacity-50 dark:border dark:border-white/30 dark:bg-transparent'}
+          w-fit min-w-[300px] max-md:w-full max-md:justify-between
+        `}>
+          
+          {/* MOBILE TOGGLE (Kiri) */}
+          <button 
+            onClick={() => setIsSidebarOpen(true)} 
+            className="md:hidden p-2 text-gray-800 dark:text-white"
+          >
+            <img src="./assets/menu-black.png" alt="" className="w-6 dark:hidden" />
+            <img src="./assets/menu-white.png" alt="" className="w-6 hidden dark:block" />
+          </button>
+
+          {/* LOGO (Assets Navbar1) */}
+          <a href="#top" className="flex-shrink-0 max-md:absolute max-md:left-1/2 max-md:-translate-x-1/2">
+            <img src="./assets/logo.png" alt="Logo" className="w-24 dark:hidden" />
+            <img src="./assets/logo_dark.png" alt="Logo" className="w-24 hidden dark:block" />
+          </a>
+
+          {/* DESKTOP LINKS (Navbar1 font & Navbar2 effect) */}
+          <div className="hidden md:flex items-center gap-6 lg:gap-8 ml-8 font-Ovo">
+            {navLinks.map((link) => (
+              <a key={link.name} href={link.href} className="relative overflow-hidden h-6 group text-gray-900 dark:text-white">
+                <span className="block group-hover:-translate-y-full transition-transform duration-300">
+                  {link.name}
+                </span>
+                <span className="block absolute top-full left-0 group-hover:translate-y-[-100%] transition-transform duration-300 text-gray-500 dark:text-gray-300">
+                  {link.name}
+                </span>
+              </a>
+            ))}
+          </div>
+
+          {/* ACTIONS: Theme Toggle & Contact Button */}
+          <div className="flex items-center gap-4 ml-8">
+            <button onClick={toggleTheme} className="p-2 transition-transform active:scale-90">
+              <img src="./assets/moon_icon.png" alt="" className="w-5 dark:hidden" />
+              <img src="./assets/sun_icon.png" alt="" className="w-5 hidden dark:block" />
+            </button>
+
+            <a href="#contact" className="hidden lg:flex items-center gap-3 px-8 py-2 border border-gray-300 hover:bg-slate-100/70 dark:hover:bg-darkHover rounded-full font-Ovo dark:border-white/30 dark:text-white transition">
+              Contact
+              <img src="./assets/arrow-icon.png" alt="" className="w-3 dark:hidden" />
+              <img src="./assets/arrow-icon-dark.png" alt="" className="w-3 hidden dark:block" />
+            </a>
+          </div>
+        </nav>
+      </div>
+
+      {/* MOBILE SIDEBAR (Logic Navbar1 but Sidebar Style Navbar2) */}
+      <div 
+        className={`fixed inset-0 bg-black/40 backdrop-blur-[2px] z-[60] transition-opacity duration-300 md:hidden ${
+          isSidebarOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+        }`}
+        onClick={() => setIsSidebarOpen(false)}
+      />
+
+      <aside className={`
+        fixed top-0 left-0 h-full w-64 z-[70] p-10 bg-rose-50 dark:bg-darkHover transform transition-transform duration-500 ease-in-out font-Ovo md:hidden
+        ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+      `}>
+        <div className="absolute right-6 top-6" onClick={() => setIsSidebarOpen(false)}>
+          <img src="./assets/close-black.png" alt="" className="w-5 cursor-pointer dark:hidden" />
+          <img src="./assets/close-white.png" alt="" className="w-5 cursor-pointer hidden dark:block" />
+        </div>
+
+        <nav className="flex flex-col gap-6 mt-10">
+          {navLinks.map((link) => (
+            <a 
+              key={link.name} 
+              href={link.href} 
+              onClick={() => setIsSidebarOpen(false)}
+              className="text-lg text-gray-900 dark:text-white hover:text-gray-500 dark:hover:text-gray-300 transition-colors"
+            >
+              {link.name}
+            </a>
+          ))}
+        </nav>
+      </aside>
     </>
-  )
-}
+  );
+};
+
+export default Navbar;
