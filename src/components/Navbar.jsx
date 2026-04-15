@@ -47,15 +47,7 @@ const Navbar = () => {
 
   return (
     <>
-      {/* Background Decor (Navbar1) */}
-      <div className="fixed top-0 right-0 w-11/12 -z-10 translate-y-[-80%] dark:hidden">
-        <img src="./assets/header-bg-color.png" alt="" className="w-full" />
-      </div>
-
       <div className={`fixed w-full z-50 transition-all duration-300 py-4 px-4`}>
-        {/* Design Navbar2: Center, Fit Content, Pill Shape 
-          Logic Navbar1: Scroll Effect (Background changes)
-        */}
         <nav className={`
           mx-auto flex items-center justify-between px-6 py-3 rounded-full transition-all duration-500
           ${isScrolled 
@@ -73,13 +65,6 @@ const Navbar = () => {
             <img src="./assets/menu-white.png" alt="" className="w-6 hidden dark:block" />
           </button>
 
-          {/* LOGO (Assets Navbar1) */}
-          <a href="#top" className="flex-shrink-0 max-md:absolute max-md:left-1/2 max-md:-translate-x-1/2">
-            <img src="./assets/logo.png" alt="Logo" className="w-24 dark:hidden" />
-            <img src="./assets/logo_dark.png" alt="Logo" className="w-24 hidden dark:block" />
-          </a>
-
-          {/* DESKTOP LINKS (Navbar1 font & Navbar2 effect) */}
           <div className="hidden md:flex items-center gap-6 lg:gap-8 ml-8 font-Ovo">
             {navLinks.map((link) => (
               <a key={link.name} href={link.href} className="relative overflow-hidden h-6 group text-gray-900 dark:text-white">
@@ -93,7 +78,6 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* ACTIONS: Theme Toggle & Contact Button */}
           <div className="flex items-center gap-4 ml-8">
             <button onClick={toggleTheme} className="p-2 transition-transform active:scale-90">
               <img src="./assets/moon_icon.png" alt="" className="w-5 dark:hidden" />
@@ -109,7 +93,6 @@ const Navbar = () => {
         </nav>
       </div>
 
-      {/* MOBILE SIDEBAR (Logic Navbar1 but Sidebar Style Navbar2) */}
       <div 
         className={`fixed inset-0 bg-black/40 backdrop-blur-[2px] z-[60] transition-opacity duration-300 md:hidden ${
           isSidebarOpen ? 'opacity-100 visible' : 'opacity-0 invisible'

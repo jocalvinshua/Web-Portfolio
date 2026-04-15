@@ -1,33 +1,36 @@
 export default function Work() {
     const work = [
         {
-            name: 'Functional Admin/User Ecommerce site',
+            name: 'AI Resume Builder',
             icon: './assets/work-1.png',
-            description: 'Fullstack web development',
-            link: 'https://github.com/jocalvinshua/Web-Development/tree/main/UMKM-Project',
+            description: 'FullStack Website',
+            link: 'https://github.com/jocalvinshua/Web-Resume-AI-Builder',
         },
         {
-            name: 'Geo based app',
+            name: 'WW3 Data Analyst',
             icon: './assets/work-2.png',
             description: 'mobile app',
             link: '',
         },
         {
-            name: 'Data visualization website',
+            name: 'Multi-Role Ecommerce Website',
             icon: './assets/work-3.png',
-            description: 'Data visualization, analysis, and management',
-            link: '',
+            description: 'FullStack Website',
+            link: 'https://github.com/jocalvinshua/Web-MultiRole-Ecommerce',
         },
         {
-            name: 'UI/UX designing',
+            name: "Retail Sales Dashboard",
             icon: './assets/work-4.png',
-            description: 'UI/UX Design',
-            link: '',
+            description: 'FullStack Website',
+            link: 'https://github.com/jocalvinshua/Web-Retail-Dashboard.git',
         }
     ];
     return (
         <div id="work" className="w-full px-[12%] py-10 scroll-mt-20">
-            <h2 className="text-center text-5xl font-Ovo">My Latest Project</h2>
+            <h4 className="text-center mb-2 text-lg font-Ovo">My portfolio</h4>
+            <h2 className="text-center text-5xl font-Ovo">My latest work</h2>
+            <p className="text-center max-w-2xl mx-auto mt-5 mb-12 font-Ovo">Welcome to my web development portfolio! Explore a collection of projects showcasing my expertise in front-end development.</p>
+
             <div className="grid grid-cols-auto my-10 gap-5 dark:text-black">
                 {work.map((work) => (
                     <div key={work.name} className="aspect-square bg-no-repeat bg-cover bg-center rounded-lg relative cursor-pointer group" style={{ backgroundImage: `url(${work.icon})` }}>
@@ -43,7 +46,7 @@ export default function Work() {
                     </div>
                 ))}
             </div>
-            <a href="https://www.linkedin.com/in/joshua-calvin-12a7a2319/" className="w-max flex items-center justify-center gap-2 text-gray-700 border border-gray-300 dark:border-white/25 hover:bg-slate-100/70 dark:hover:bg-darkHover rounded-full py-2 px-8 mx-auto my-20 duration-300 dark:text-white">
+            <a href="https://github.com/jocalvinshua" className="w-max flex items-center justify-center gap-2 text-gray-700 border border-gray-300 dark:border-white/25 hover:bg-slate-100/70 dark:hover:bg-darkHover rounded-full py-2 px-8 mx-auto my-20 duration-300 dark:text-white">
                 Show more
                 <img src="./assets/right-arrow-bold.png" alt="" className="w-4 dark:hidden" />
                 <img src="./assets/right-arrow-bold-dark.png" alt="" className="w-4 hidden dark:block" />
