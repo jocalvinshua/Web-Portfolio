@@ -1,26 +1,60 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-main: #0a0a0b;
+  --color-card: #2A3439;
+  --color-navbar: rgba(10, 10, 11, 0.8);
+  --color-primary: #e11d48;
+  --color-bright: #f8fafc;
+  --color-muted: #94a3b8;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@theme {
+  --color-main: var(--color-main);
+  --color-card: var(--color-card);
+  --color-navbar: var(--color-navbar);
+  --color-primary: var(--color-primary);
+  --color-bright: var(--color-bright);
+  --color-muted: var(--color-muted);
+
+  --animate-fade-in-up: fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  body {
+    background-color: var(--color-main);
+    color: var(--color-bright);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    overflow-x: hidden;
+  }
+
+  html ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  html ::-webkit-scrollbar-track {
+    background: var(--color-main);
+  }
+
+  html ::-webkit-scrollbar-thumb {
+    background: #334155;
+    border-radius: 10px;
+    border: 2px solid var(--color-main);
+  }
+
+  html ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-primary);
+  }
 }
+
