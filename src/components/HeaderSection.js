@@ -1,12 +1,37 @@
 import Image from "next/image";
 import Link from "next/link";
 import ScrollEffect from "./ScrollEffect";
+import { cookies } from "next/headers";
+import { createClient } from "@/lib/supabase";
+import CVButton from "./CVButton";
 
-export default function HeaderSection() {
+export default async function HeaderSection() {
+  const cookieStore = await cookies();
+  const supabase = createClient(cookieStore);
+
+  let profile = {
+    email: "",
+    github_url: "#",
+    cv_url: "",
+    linkedin_url: "#",
+  };
+
+  try {
+    const { data, error } = await supabase
+      .from("profile")
+      .select("email, github_url, cv_url, linkedin_url")
+      .single(); // Mengambil satu objek langsung jika baris data profil hanya satu
+
+    if (error) throw error;
+    if (data) profile = data;
+  } catch (error) {
+    console.error("Gagal memuat data profil:", error.message);
+  }
+
   const socials = [
     {
       name: "GitHub",
-      href: "https://github.com/jocalvinshua",
+      href: profile.github_url,
       icon: (
         <Image
           src="/icons/github_light.svg"
@@ -18,7 +43,7 @@ export default function HeaderSection() {
     },
     {
       name: "LinkedIn",
-      href: "https://www.linkedin.com/in/joshua-calvin-12a7a2319/",
+      href: profile.linkedin_url,
       icon: (
         <Image
           src="/icons/linkedin_light.svg"
@@ -98,9 +123,8 @@ export default function HeaderSection() {
                     >
                       View My Works
                     </Link>
-                    <button className="inline-block px-5 py-2.5 text-bright hover:text-primary border border-primary rounded-xl hover:bg-card/20 transition-all duration-300 shadow-lg shadow-primary/20">
-                      My Resume
-                    </button>
+                    {/* Oper URL hasil fetch data supabase ke props button */}
+                    <CVButton cvUrl={profile.cv_url} />
                   </div>
                 </ScrollEffect>
               </div>
