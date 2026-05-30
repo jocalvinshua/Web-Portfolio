@@ -62,7 +62,7 @@ export default function AboutSection({ experience = [], education = [] }) {
       <main className="relative z-10 max-w-6xl mx-auto px-6 py-24 flex flex-col md:flex-row gap-12">
 
         {/* ── SIDEBAR ── */}
-        <aside className="w-full md:w-60 flex-shrink-0 md:sticky md:top-24 h-auto md:h-[calc(100vh-8rem)] mb-8 md:mb-0">
+        <aside className="w-full md:w-60 flex-shrink-0 md:sticky md:top-24 h-auto md:h-full mb-8 md:mb-0">
           <div
             className="rounded-2xl border overflow-hidden"
             style={{
