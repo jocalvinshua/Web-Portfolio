@@ -20,6 +20,8 @@ export default async function Home() {
       supabase
         .from("my_skills")
         .select("*")
+        .gte("level", 4)
+        .limit(6)
         .order("level", { ascending: false }),
       supabase
         .from("my_projects")
